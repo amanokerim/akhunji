@@ -9,17 +9,22 @@ class HomeP extends ChangeNotifier {
   List<String> _imageList = [], _selectedList = [];
   List<String> get selectedList => _selectedList;
 
-  int _selectedCategory = 0;
-  int get selectedCategory => _selectedCategory;
-  set selectedCategory(int selected) {
-    _selectedCategory = selected;
+  _refreshSelectedList() {
     _selectedList = _imageList
         .where((image) => image.contains(categoryIDs[_selectedCategory]))
         .toList();
     notifyListeners();
   }
 
+  int _selectedCategory = 0;
+  int get selectedCategory => _selectedCategory;
+  set selectedCategory(int selected) {
+    _selectedCategory = selected;
+    _refreshSelectedList();
+  }
+
   List<String> categoryNames = [
+    "Galereýa",
     "Daşky dekor",
     "Içki dekor",
     "Burçlar",
@@ -27,6 +32,7 @@ class HomeP extends ChangeNotifier {
     "Potoloklar",
   ];
   List<String> categoryIDs = [
+    "galereya",
     "dashky",
     "ichki",
     "burch",
@@ -43,5 +49,6 @@ class HomeP extends ChangeNotifier {
     final Map<String, dynamic> manifestMap = jsonDecode(manifestContent);
 
     _imageList = manifestMap.keys.toList();
+    _refreshSelectedList();
   }
 }
